@@ -3,13 +3,18 @@
 using namespace std;
 
 /* class product의 메소드 구현부*/
-Product::Product(string id, string name, string capacity, string category, double price, int stock) {
+Product::Product(string id, string category, string brand, string name,
+                 double price, int stock, double capacity, string unit, string manufacturer) {
     this->id = id;
-    this->name = name;
-    this->capacity = capacity ;
     this->category = category;
+    this->brand = brand;
+    this->name = name;
     this->price = price;
     this->stock = stock;
+    this->capacity = capacity;
+    this->unit = unit;
+    this->manufacturer = manufacturer;
+
 } //constructor
 
 Product::~Product(){

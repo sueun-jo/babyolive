@@ -16,6 +16,7 @@ protected:
 public:
     Manager(); // default constructor
     virtual void add() = 0;
+    virtual void updatePriceOrStock() = 0;
     virtual void remove() = 0;
     virtual T* findByID(string id) = 0;
     virtual void listAll() = 0;
