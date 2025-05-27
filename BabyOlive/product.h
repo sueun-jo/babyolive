@@ -1,0 +1,25 @@
+#ifndef PRODUCT_H
+#define PRODUCT_H
+
+#include <string>
+using namespace std;
+
+class Product {
+private: // 상품id, 분류, 브랜드명, 상품명, 가격, 재고, 용량(숫자), 용량(단위), 제조사명
+    string id;
+    string name;
+    double capacity;
+    string unit;
+    string category;
+    double price;
+    int stock;
+
+public:
+    Product(string id, string name, double capacity, string unit, string category, double price, int stock);
+    ~Product();
+    void showProductInfo();
+    void increaseStock();
+    void decreaseStock();
+};
+
+#endif // PRODUCT_H

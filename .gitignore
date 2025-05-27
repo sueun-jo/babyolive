@@ -1,0 +1,45 @@
+# Qt build directories and cache files
+build*/
+*/build/
+*.o
+*.obj
+*.moc
+*.qrc
+*.qmake.stash
+*.qmake.cache
+*.pro.user
+*.qmlproject.user
+*.creator.user
+*.qbs.user
+*.qtc_clangd/
+*.idx
+*.pro
+
+
+
+# MSVC and GCC build files
+*.exe
+*.ilk
+*.pdb
+*.vc.pdb
+*.ipdb
+*.iobj
+
+# Windows specific files
+Thumbs.db
+desktop.ini
+
+# MacOS specific files
+.DS_Store
+
+# IDE and Editor specific files
+.idea/
+.vscode/
+*.code-workspace
+
+# Temporary files
+*.tmp
+*.log
+*.bak
+*.swp
+
