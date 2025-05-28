@@ -5,6 +5,7 @@
 #include "product.h"
 #include "csvhandler.h"
 
+
 using namespace std;
 class ProductManager : public Manager<Product> /*추상클래스 Manager 상속받음*/
 {
@@ -14,8 +15,9 @@ public:
     void add () override;
     void remove() override;
     void update() override;
-    Product* findByID(string id) override;
+    Product* find() override;
     void listAll() override;
+    void saveAll();
 };
 
 #endif // PRODUCTMANAGER_H

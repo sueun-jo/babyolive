@@ -24,9 +24,10 @@ public:
 
     ~Product();
 
-    void showProductInfo();
+    void showProductInfo () const;
     void increaseStock();
     void decreaseStock();
+    string toCSVRow() const;
 };
 
 #endif // PRODUCT_H

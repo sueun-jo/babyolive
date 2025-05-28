@@ -14,11 +14,11 @@ class Manager
 protected:
     vector <T> items;
 public:
-    Manager(); // default constructor
+    Manager(){} // default constructor
     virtual void add() = 0;
-    virtual void updatePriceOrStock() = 0;
+    virtual void update() = 0;
     virtual void remove() = 0;
-    virtual T* findByID(string id) = 0;
+    virtual T* find() = 0;
     virtual void listAll() = 0;
 };
 
