@@ -38,6 +38,7 @@ void Product::showProductInfo() const{
     cout << "Manufacturer: " << manufacturer << endl << endl;
 } //Product::showProductInfo
 
+
 /*csv파일로 만들기 위한 메소드*/
 string Product::toCSVRow() const {
 
@@ -51,6 +52,18 @@ string Product::toCSVRow() const {
     return oss.str();
 }
 
+
+bool Product::matches(int choice, string keyword) const{
+    switch(choice){
+    case 1: return name == keyword; break;
+    case 2: return category == keyword; break;
+    case 3: return brand == keyword; break;
+    case 4: return manufacturer == keyword; break;
+    case 5: return id == keyword; break;
+    default: return false;
+    }
+}
+
 void Product::increaseStock(){
 
 }
@@ -58,3 +71,5 @@ void Product::increaseStock(){
 void Product::decreaseStock(){
 
 }
+
+

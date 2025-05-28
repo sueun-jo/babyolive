@@ -50,14 +50,50 @@ void ProductManager::add(){
     Product p(id, category, brand, name, price, stock, capacity, unit, manufacturer);
     items.push_back(p);
 
-    saveAll(); // vector에 새로운 상품 정보 등록하면 saveAll();
+    saveAll(); // vector에 새로운 상품 정보 등록하고 saveAll();
 
 }
 
 
-void ProductManager::remove(){}
+/*vector<Product> items에서 상품을 찾는다*/
+Product* ProductManager::find(){
+    /*검색 기준을 사용자에게 물어봄*/
+    int choice; //검색기준 인자
+    cout << "어떤 검색 기준을 사용할건가요? (숫자로 입력해주세요)" << endl;
+    cout << "[1]상품명 [2]카테고리 [3]브랜드 [4]제조사 [5]상품ID" << endl;
+    cin >> choice;
 
-Product* ProductManager::find(){}
+    cout << "찾을 키워드를 입력해주세요." << endl;
+    string keyword; //검색할 키워드
+    getline(cin>>ws, keyword); //키워드 받기
+
+    for (auto& p : items){
+        if (p.matches(choice, keyword))
+            return &p; // 해당하는 객체 p의 주소연산자&
+    }
+    return nullptr;
+}
+
+/* 상품을 찾아 삭제한다 */
+void ProductManager::remove(){
+
+    Product* target = find();
+    if (!target) {
+        cout << "해당 조건의 상품을 찾을 수 없어요." << endl;
+        return;
+    }
+
+    /* target(match되는 객체p의 주소값)과 매칭되는 객체p를 뒤로 밀어줌*/
+    auto it = remove_if(items.begin(), items.end(),
+                        [&] (const Product& p) { return &p == target; });
+
+    /*그리고 진짜 지움*/
+    if(it != items.end()){
+        items.erase(it, items.end());
+        cout << "상품을 삭제했습니다!" << endl;
+    }
+}
+
 
 void ProductManager::update(){}
 

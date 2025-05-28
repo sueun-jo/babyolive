@@ -27,7 +27,8 @@ public:
     void showProductInfo () const;
     void increaseStock();
     void decreaseStock();
-    string toCSVRow() const;
+    string toCSVRow() const; //csv로 저장하기 위해 csv 포맷으로 product 객체 변환
+    bool matches(int choice, string keyword) const;
 };
 
 #endif // PRODUCT_H
