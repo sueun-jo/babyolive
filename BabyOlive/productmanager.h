@@ -14,6 +14,7 @@ public:
     void remove() override;
     void update() override;
     Product* find() override;
+    Product* findByID();
     void listAll() override;
     void saveAll();
 };

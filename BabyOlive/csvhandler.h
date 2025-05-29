@@ -28,28 +28,28 @@ public:
 
         string line;
 
-        while (getline(file, line)){
-
+        while (getline(file, line)) {
             stringstream ss(line);
-            string id, category, brand, name, priceStr, stockStr, capacityStr, unit, manufacturer;
+            string id, category, brand, name, priceStr, stockStr;
 
             getline(ss, id, ',');
             getline(ss, category, ',');
             getline(ss, brand, ',');
             getline(ss, name, ',');
             getline(ss, priceStr, ',');
-            getline(ss, stockStr, ',');
-            getline(ss, capacityStr, ',');
-            getline(ss, unit, ',');
-            getline(ss, manufacturer, ',');
+            getline(ss, stockStr);
 
-            /* string으로 읽어왔으니까 double, int형은 별도의 변환이 필요하다*/
-            double price = stod(priceStr);
-            int stock = stoi(priceStr);
-            double capacity = stod(capacityStr);
+            try {
+                int price = stod(priceStr);
+                int stock = stoi(stockStr);
 
-            T item (id, category, brand, name, price, stock, capacity, unit, manufacturer);
-            result.push_back(item);
+                T item(id, category, brand, name, price, stock);
+                result.push_back(item);
+            } catch (const std::exception& e) {
+                cerr << "CSV 파싱 중 예외 발생: " << e.what() << endl;
+                cerr << "문제 줄: " << line << endl;
+                continue;
+            }
         }
 
         file.close();

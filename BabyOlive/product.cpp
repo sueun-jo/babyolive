@@ -1,14 +1,16 @@
 #include "product.h"
+
 #include <iostream>
 #include <sstream>
 #include <string>
 #include <iomanip>
 
+
 using namespace std;
 
 /* class product의 메소드 구현부*/
 Product::Product(string id, string category, string brand, string name,
-                 double price, int stock, double capacity, string unit, string manufacturer) {
+                 int price, int stock) {
 
     this->id = id;
     this->category = category;
@@ -16,10 +18,6 @@ Product::Product(string id, string category, string brand, string name,
     this->name = name;
     this->price = price;
     this->stock = stock;
-    this->capacity = capacity;
-    this->unit = unit;
-    this->manufacturer = manufacturer;
-
 } //constructor
 
 Product::~Product(){
@@ -28,14 +26,16 @@ Product::~Product(){
 
 /* product 객체의 정보를 보여준다 */
 void Product::showProductInfo() const{
-    cout << "Product ID: " << id << endl;
-    cout << "Product Category: " << category << endl;
-    cout << "Brand: " << brand << endl;
-    cout << "Product Name: " << name << endl;
-    cout << "Product Price: " << price << endl;
-    cout << "Product Stock: " << stock << endl;
-    cout << "Capacity: " << capacity << unit << endl;
-    cout << "Manufacturer: " << manufacturer << endl << endl;
+
+    cout << "\n";
+    cout << "Product Info | " << "ID: " << id << "\n";
+    cout << "Category: " << category << "\n";
+    cout << "Brand: " << brand << "\n";
+    cout << "Name: " << name << "\n";
+    cout << "Price: " << price << "\n";
+    cout << "Stock: " << stock << "\n\n";
+    cout << "-------------------------------------\n";
+
 } //Product::showProductInfo
 
 
@@ -43,23 +43,20 @@ void Product::showProductInfo() const{
 string Product::toCSVRow() const {
 
     ostringstream oss;
-    oss << fixed << setprecision(2); /*소수점 둘째자리까지 저장 (price, capacity)*/
 
     oss << id << "," << category << "," << brand << "," << name << ","
-        << price << "," << stock << ","
-        << capacity << "," << unit << "," << manufacturer;
+        << price << "," << stock;
 
     return oss.str();
 }
 
-
+/*keyword랑 일치하는지 확인함*/
 bool Product::matches(int choice, string keyword) const{
     switch(choice){
-    case 1: return name == keyword; break;
-    case 2: return category == keyword; break;
+    case 1: return id== keyword; break;
+    case 2: return name == keyword; break;
     case 3: return brand == keyword; break;
-    case 4: return manufacturer == keyword; break;
-    case 5: return id == keyword; break;
+    case 4: return category == keyword; break;
     default: return false;
     }
 }

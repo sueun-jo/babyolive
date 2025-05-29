@@ -12,15 +12,13 @@ private: // 상품id, 분류, 브랜드명, 상품명, 가격, 재고, 용량(�
     string name;
     double price;
     int stock;
-    double capacity;
-    string unit;
-    string manufacturer;
+
 
 public:
     Product();
 
     Product(string id, string category, string brand, string name,
-            double price, int stock, double capacity, string unit, string manufacturer);
+            int price, int stock);
 
     ~Product();
 
