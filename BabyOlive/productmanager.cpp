@@ -95,7 +95,17 @@ void ProductManager::remove(){
 }
 
 
-void ProductManager::update(){}
+void ProductManager::update(){
+
+    Product* target = find();
+    if (!target) {
+        cout << "수정할 상품을 찾을 수 없습니다." << endl;
+        return;
+    }
+
+
+
+}
 
 void ProductManager::listAll(){
 

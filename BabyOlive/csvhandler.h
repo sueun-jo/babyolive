@@ -54,7 +54,6 @@ public:
 
         file.close();
         return result;
-
     }
 
     /* vector내 자료들 저장하는 saveAll 메소드 구현부*/
