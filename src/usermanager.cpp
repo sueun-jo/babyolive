@@ -10,7 +10,7 @@ using namespace std;
 UserManager::UserManager() {
     users = csvHandler<User>::loadAll("users.csv");
     cout << "UserManager 생성자 생성 -> call csvHandler<User>::loadAll" << endl;
-    cout << "불러온 사용자 수 : " << users.size() << endl;
+    cout << "등록된 사용자 수 : " << users.size() << endl;
 }
 
 void UserManager::add() {
