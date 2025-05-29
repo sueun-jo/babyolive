@@ -100,16 +100,19 @@ void ProductManager::remove(){
 
 
 void ProductManager::update(){
-    Product* target = find();  // findByID() 대신 find() 사용
+
+    Product* target = findByID(); //수정은 id로만 접근해서 가능하게 함
     if (!target) {
         cout << "수정할 상품을 찾을 수 없습니다." << endl;
         cout << "계속하려면 enter 키를 입력하세요."; cin.get();
         return;
     }
-
+    cout << "수정 전의 상품 정보" << endl;
     target->showProductInfo(); //수정 전 정보 보여줌
     target->updateField(); //Product의 updateField에 접근해서 내부에서 처리함
+    cout << "수정이 완료되었습니다. 상품 정보는 하기와 같습니다." << endl;
     target->showProductInfo(); //수정 후 정보 보여줌
+    
     saveAll(); //저장함
 }
 

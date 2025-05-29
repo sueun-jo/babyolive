@@ -28,7 +28,7 @@ string User::toCSVRow() const {
     
     // 주문 내역을 |로 구분하여 저장
     oss << ",";
-    for(size_t i = 0; i < orders.size(); ++i) {
+    for(size_t i = 0; i < orders.size(); i++) {
         if(i > 0) oss << "|";
         oss << orders[i];
     }
@@ -40,7 +40,6 @@ bool User::matches(int choice, string keyword) const {
     switch(choice) {
     case 1: return (id == keyword);
     case 2: return (name == keyword);
-    case 3: return (address == keyword);
     default: return false;
     }
 }

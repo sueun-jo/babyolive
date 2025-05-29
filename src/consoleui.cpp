@@ -102,6 +102,7 @@ void consoleUI::showAdminUI(){
         case 0 : exit(0); break;
         case 1 : return; break;
         case 2: showAdminProductManageUI(); break;
+        case 3: showAdminUserManageUI(); break;
         default : pauseForUser(); break;
         }
     }
@@ -171,6 +172,17 @@ void consoleUI::showAdminUserManageUI(){
         cout << "  5. 상품 삭제 하기\n";
         cout << "-------------------------------------\n";
         cout << "  선택: ";
+
+        int choice; cin >> choice; cin.ignore();
+        switch(choice){
+            case 0: exit(0); break;
+            case 1: return; break;
+            case 2: um.add(); break;
+            case 4: um.update(); break;
+            case 5: um.remove(); break;
+            default: pauseForUser(); break;
+        }
+
 
     }
 }

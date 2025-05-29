@@ -90,7 +90,7 @@ void UserManager::listAll() {
 
 User* UserManager::find() {
     cout << "어떤 검색 기준을 사용할건가요? (숫자로 입력해주세요)" << endl;
-    cout << "[1]ID [2]이름 [3]이메일" << endl;
+    cout << "[1]ID [2]이름 " << endl;
     
     int choice;
     cin >> choice; cin.ignore();
@@ -106,6 +106,7 @@ User* UserManager::find() {
     
     return nullptr;
 }
+
 
 User* UserManager::findByID() {
     string id;

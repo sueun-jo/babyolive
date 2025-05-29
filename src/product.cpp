@@ -7,6 +7,8 @@
 using namespace std;
 
 /* class product의 메소드 구현부*/
+Product::Product() : price(0), stock(0) {} // 기본 생성자 추가
+
 Product::Product(string id, string category, string brand, string name,
                  int price, int stock) {
 
