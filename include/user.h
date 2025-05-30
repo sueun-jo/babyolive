@@ -11,7 +11,7 @@ private:
     string password;
     string name;
     string address;
-    vector<string> orders;  // 주문 내역을 저장할 벡터
+    vector<string> cart;  // 장바구니를 저장할 벡터
     bool isAdmin;
 
 public:
@@ -27,10 +27,10 @@ public:
     bool authenticate(const string& inputid, const string& inputPassword) const;  // 비밀번호 인증
     bool isAdminUser() const; // 관리자 여부 확인
     
-    // 주문 관련 메소드
-    void addOrder(const string& orderInfo);  // 주문 추가
-    void showOrders() const;    // 주문 내역 표시
-    const vector<string>& getOrders() const { return orders; }  // 주문 내역 반환
+    // 장바구니 관련 메소드
+    void addToCart(const string& productInfo);  // 장바구니에 상품 추가
+    void showCart() const;    // 장바구니 내역 표시
+    const vector<string>& getCart() const { return cart; }  // 장바구니 내역 반환
 
     // Setter methods
     void setName(const string& newName);

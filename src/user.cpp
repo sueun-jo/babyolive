@@ -20,7 +20,7 @@ void User::showUserInfo() const {
     cout << "Name: " << name << "\n";
     cout << "Address: " << address << "\n";
     cout << "Role: " << (isAdmin ? "Admin" : "Member") << "\n";
-    cout << "Orders: " << orders.size() << " orders\n\n";
+    cout << "Cart Items: " << cart.size() << " items\n\n";
     cout << "-------------------------------------\n";
 }
 
@@ -29,12 +29,12 @@ string User::toCSVRow() const {
     ostringstream oss;
     oss << id << "," << password << "," << name << "," << address << "," << (isAdmin ? "1" : "0");
     
-    // 주문 내역이 있을 때만 쉼표와 주문 내역을 추가
-    if (!orders.empty()) {
+    // 장바구니 내역이 있을 때만 쉼표와 장바구니 내역을 추가
+    if (!cart.empty()) {
         oss << ",";
-        for(size_t i = 0; i < orders.size(); i++) {
+        for(size_t i = 0; i < cart.size(); i++) {
             if(i > 0) oss << "|";
-            oss << orders[i];
+            oss << cart[i];
         }
     }
     
@@ -104,20 +104,20 @@ bool User::authenticate(const string& inputid, const string& inputPassword) cons
 
 bool User::isAdminUser() const { return isAdmin; }
 
-void User::addOrder(const string& orderInfo) {
-    orders.push_back(orderInfo);
+void User::addToCart(const string& productInfo) {
+    cart.push_back(productInfo);
 }
 
-void User::showOrders() const {
-    cout << "\n주문 내역:\n";
+void User::showCart() const {
+    cout << "\n장바구니 내역:\n";
     cout << "-------------------------------------\n";
-    if(orders.empty()) {
-        cout << "주문 내역이 없습니다.\n";
+    if(cart.empty()) {
+        cout << "장바구니가 비어있습니다.\n";
         return;
     }
     
-    for(size_t i = 0; i < orders.size(); ++i) {
-        cout << (i+1) << ". " << orders[i] << "\n";
+    for(size_t i = 0; i < cart.size(); ++i) {
+        cout << (i+1) << ". " << cart[i] << "\n";
     }
     cout << "-------------------------------------\n";
 }
