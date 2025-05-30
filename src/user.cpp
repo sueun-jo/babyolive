@@ -5,7 +5,7 @@
 
 using namespace std;
 
-User::User() : isAdmin(false) {}
+User::User() : isAdmin(false) {} //기본생성자의 관리자 권한은 0
 
 User::User(string id, string password, string name, string address, bool isAdmin)
     : id(id), password(password), name(name), address(address), isAdmin(isAdmin) {}
@@ -22,6 +22,7 @@ void User::showUserInfo() const {
     cout << "-------------------------------------\n";
 }
 
+/*csv로 내보내기 전에 vector에서 string형으로 바꿔서 csv로 내보냄*/
 string User::toCSVRow() const {
     ostringstream oss;
     oss << id << "," << password << "," << name << "," << address << "," << (isAdmin ? "1" : "0");
@@ -38,10 +39,22 @@ string User::toCSVRow() const {
 
 bool User::matches(int choice, string keyword) const {
     switch(choice) {
-    case 1: return (id == keyword);
-    case 2: return (name == keyword);
+    case 1: return id == keyword;
+    case 2: return name == keyword;
     default: return false;
     }
+}
+
+void User::setName(const string& newName) {
+    name = newName;
+}
+
+void User::setAddress(const string& newAddress) {
+    address = newAddress;
+}
+
+void User::setPassword(const string& newPassword) {
+    password = newPassword;
 }
 
 void User::updateField() {
@@ -54,18 +67,24 @@ void User::updateField() {
 
     switch (choice) {
     case 1: {
+        string newName;
         cout << "새 이름: ";
-        getline(cin >> ws, name);
+        getline(cin >> ws, newName);
+        setName(newName);
         break;
     }
     case 2: {
+        string newAddress;
         cout << "새 주소: ";
-        getline(cin >> ws, address);
+        getline(cin >> ws, newAddress);
+        setAddress(newAddress);
         break;
     }
     case 3: {
+        string newPassword;
         cout << "새 비밀번호: ";
-        getline(cin >> ws, password);
+        getline(cin >> ws, newPassword);
+        setPassword(newPassword);
         break;
     }
     default:
@@ -74,9 +93,12 @@ void User::updateField() {
     }
 }
 
-bool User::authenticate(const string& inputPassword) const {
-    return password == inputPassword;
+/* 로그인 인증 authenticate */
+bool User::authenticate(const string& inputid, const string& inputPassword) const {
+    return (id == inputid && password == inputPassword);
 }
+
+bool User::isAdminUser() const { return isAdmin; }
 
 void User::addOrder(const string& orderInfo) {
     orders.push_back(orderInfo);
@@ -94,4 +116,5 @@ void User::showOrders() const {
         cout << (i+1) << ". " << orders[i] << "\n";
     }
     cout << "-------------------------------------\n";
-} 
+}
+
