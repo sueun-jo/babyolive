@@ -3,7 +3,7 @@
 #include <sstream>
 #include <string>
 
-using namespace std;
+using namespace std::cout;
 
 User::User() : isAdmin(false) {} //기본생성자의 관리자 권한은 0
 
@@ -14,7 +14,9 @@ User::~User() {}
 
 void User::showUserInfo() const {
     cout << "\n";
-    cout << "User Info | " << "ID: " << id << "\n";
+    cout << "User Info | \n";
+    cout << "ID: " << id << "\n";
+    cout << "Password: " << password << "\n";
     cout << "Name: " << name << "\n";
     cout << "Address: " << address << "\n";
     cout << "Role: " << (isAdmin ? "Admin" : "Member") << "\n";
@@ -27,11 +29,13 @@ string User::toCSVRow() const {
     ostringstream oss;
     oss << id << "," << password << "," << name << "," << address << "," << (isAdmin ? "1" : "0");
     
-    // 주문 내역을 |로 구분하여 저장
-    oss << ",";
-    for(size_t i = 0; i < orders.size(); i++) {
-        if(i > 0) oss << "|";
-        oss << orders[i];
+    // 주문 내역이 있을 때만 쉼표와 주문 내역을 추가
+    if (!orders.empty()) {
+        oss << ",";
+        for(size_t i = 0; i < orders.size(); i++) {
+            if(i > 0) oss << "|";
+            oss << orders[i];
+        }
     }
     
     return oss.str();
