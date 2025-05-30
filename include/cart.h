@@ -12,22 +12,35 @@ private:
     vector<string> products;    // 담은 상품 목록
 
 public:
-    Cart();
-    Cart(const string& userId);
-    ~Cart();
+    Cart(const string& id) : userId(id) {}
 
     // 장바구니 기본 기능
-    void addProduct(const string& productInfo);    // 상품 추가
-    void removeProduct(int index);                 // 상품 제거
-    void clearCart();                             // 장바구니 비우기
+    void addProduct(const string& product) { products.push_back(product); }
+    void removeProduct(size_t index) {
+        if (index < products.size()) {
+            products.erase(products.begin() + index);
+        }
+    }
+    void clear() { products.clear(); }
     void showCart() const;                        // 장바구니 내용 표시
     
     // 필수 기능
     bool matchUserId(const string& id) const { return userId == id; }  // 사용자 ID 일치 확인
     size_t getProductCount() const { return products.size(); }         // 상품 개수 확인
+    const vector<string>& getProducts() const { return products; }
     
     // CSV 변환
-    string toCSVRow() const;    // CSV 저장용 문자열 변환
+    string toCSVRow() const {
+        string result = userId;
+        if (!products.empty()) {
+            result += ",";
+            for (size_t i = 0; i < products.size(); ++i) {
+                result += products[i];
+                if (i < products.size() - 1) result += "|";
+            }
+        }
+        return result;
+    }
 };
 
 #endif // CART_H 

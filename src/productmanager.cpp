@@ -32,8 +32,8 @@ void ProductManager::add(){
     cout << "재고수량 : "; cin >> stock; cin.ignore();
 
     /*입력한 정보를 기반으로 prdouct 객체 생성*/
-    Product p(id, category, brand, name, price, stock);
-    items.push_back(p);
+    Product newProduct(id, category, brand, name, price, stock);
+    items.push_back(newProduct);
 
     saveAll(); // vector에 새로운 상품 정보 등록하고 saveAll();
 
@@ -97,12 +97,13 @@ void ProductManager::remove(){
         items.erase(it, items.end());
         cout << "요청하신 상품을 삭제했습니다." << endl;
     }
+    saveAll();
 }
 
 
 void ProductManager::update(){
 
-    Product* target = findByID(); //수정은 id로만 접근해서 가능하게 함
+    Product* target = find();
     if (!target) {
         cout << "수정할 상품을 찾을 수 없습니다." << endl;
         cout << "계속하려면 enter 키를 입력하세요."; cin.get();

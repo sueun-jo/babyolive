@@ -19,8 +19,6 @@ public:
     void listAll() override;          // 모든 사용자 목록 표시
     User* find() override;            // 일반 검색
     
-    User* findByID();        // ID로 검색
-    
     // 인증 책임
     User* authenticate(const string& id, const string& password);  // 로그인 인증
     

@@ -1,4 +1,5 @@
 #include "../include/product.h"
+#include "../include/util.h"
 #include <iostream>
 #include <sstream>
 #include <string>
@@ -50,28 +51,13 @@ string Product::toCSVRow() const {
     return oss.str();
 }
 
-// 문자열 앞뒤의 공백을 제거하는 함수
-static string trim(const string& str) {
-    size_t first = str.find_first_not_of(" \t\n\r");
-    if (first == string::npos) return "";
-    size_t last = str.find_last_not_of(" \t\n\r");
-    return str.substr(first, (last - first + 1));
-}
-
 /*keyword랑 일치하는지 확인함*/
-bool Product::matches(int choice, string keyword) const {
-    // 입력된 키워드와 저장된 값 모두 trim
-    keyword = trim(keyword);
-    string trimmed_id = trim(id);
-    string trimmed_name = trim(name);
-    string trimmed_brand = trim(brand);
-    string trimmed_category = trim(category);
-
-    switch(choice) {
-    case 1: return (trimmed_id == keyword);
-    case 2: return (trimmed_name == keyword);
-    case 3: return (trimmed_brand == keyword);
-    case 4: return (trimmed_category == keyword);
+bool Product::matches(int choice, string keyword) const{
+    switch(choice){
+    case 1: return id == keyword;
+    case 2: return name == keyword;
+    case 3: return brand == keyword;
+    case 4: return category == keyword;
     default: return false;
     }
 }
@@ -147,6 +133,12 @@ void Product::setPrice (const int p){
 
 void Product::setStock(const int s){
     stock = s;
+}
+
+string Product::toCartString() const {
+    ostringstream oss;
+    oss << "[" << id << "] " << brand << " " << name << " - " << price << "원";
+    return oss.str();
 }
 
 

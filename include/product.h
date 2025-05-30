@@ -22,9 +22,10 @@ public:
 
     ~Product();
 
-    void showProductInfo () const;
-    string toCSVRow() const; //csv로 저장하기 위해 csv 포맷으로 product 객체 변환
-    bool matches(int choice, string keyword) const;
+    void showProductInfo() const;  // 상품 정보 표시
+    string toCSVRow() const;       // CSV 저장용 문자열 변환
+    string toCartString() const;   // 장바구니용 상품 정보 문자열 반환
+    bool matches(int choice, string keyword) const;  // 검색 조건과 일치하는지 확인
     void updateField();
 
     void setCategory(const string& newCategory);

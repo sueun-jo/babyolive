@@ -6,13 +6,25 @@
 #include <string>
 #include <regex>
 #include "user.h"
+#include <filesystem>
 
 using namespace std;
+namespace fs = std::filesystem;
 
 UserManager::UserManager() {
+    cout << "Current working directory: " << fs::current_path().string() << endl;
+    cout << "Attempting to load users from users.csv..." << endl;
+    
     this->items = csvHandler<User>::loadAll("users.csv");
     cout << "UserManager 생성자 생성 -> call csvHandler<User>::loadAll" << endl;
     cout << "등록된 사용자 수 : " << items.size() << endl;
+    
+    // Debug: 사용자 정보 출력
+    cout << "\n=== Registered Users ===\n";
+    for (const auto& user : items) {
+        user.showUserInfo();
+    }
+    cout << "=====================\n";
 }
 
 void UserManager::add() {
@@ -48,7 +60,7 @@ void UserManager::add() {
 }
 
 void UserManager::remove() {
-    User* target = findByID();
+    User* target = find();
     
     if (!target) {
         cout << "해당 사용자를 찾을 수 없습니다." << endl;
@@ -66,7 +78,7 @@ void UserManager::remove() {
 }
 
 void UserManager::update() {
-    User* target = findByID();
+    User* target = find();
     if (!target) {
         cout << "수정할 사용자를 찾을 수 없습니다." << endl;
         cout << "계속하려면 enter 키를 입력하세요."; cin.get();
@@ -110,24 +122,13 @@ User* UserManager::find() {
 }
 
 
-User* UserManager::findByID() {
-    string id;
-    cout << "찾을 사용자 ID를 입력해주세요: ";
-    getline(cin >> ws, id);
-    
+User* UserManager::authenticate(const string& inputid, const string& inputpassword) {
     for (auto& user : items) {
-        if (user.matches(1, id))
-            return &user;
-    }
-    
-    cout << "해당 사용자를 찾을 수 없습니다." << endl;
-    return nullptr;
-}
-
-User* UserManager::authenticate(const string& id, const string& password) {
-    for (auto& user : items) {
-        if (user.matches(1, id) && user.authenticate(password))
-            return &user;
+        if (user.authenticate(inputid, inputpassword))
+            {   cout << "로그인 성공" << endl;
+                cout << "계속하려면 enter 키를 입력하세요.";
+                cin.ignore(); cin.get();
+                return &user;}
     }
     return nullptr;
 }

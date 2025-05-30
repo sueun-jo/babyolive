@@ -11,8 +11,8 @@ private:
     string password;
     string name;
     string address;
-    vector<string> cart;  // 장바구니를 저장할 벡터
     bool isAdmin;
+    vector<string> cart;  // 장바구니를 저장할 벡터
 
 public:
     User();

@@ -2,6 +2,8 @@
 #define CONSOLEUI_H
 #include "productmanager.h"
 #include "usermanager.h"
+#include "cartmanager.h"
+
 class consoleUI
 {
 public:
@@ -24,7 +26,11 @@ public:
 private:
     UserManager um;
     ProductManager pm;
-
+    CartManager cm;
+    void showAllProductsWithCart();
+    void findProductWithCart();
+    void askToAddToCart(Product* product);
+    void showCurrentCart();
 };
 
 #endif // CONSOLEUI_H
