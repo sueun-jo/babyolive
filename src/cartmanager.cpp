@@ -44,7 +44,7 @@ void CartManager::update() {
     cin >> index;
     cin.ignore();
 
-    if (index < 1 || index > cart->getProducts().size()) {
+    if (index < 1 || index > cart->products.size()) {
         cout << "잘못된 상품 번호입니다." << endl;
         return;
     }
@@ -77,7 +77,7 @@ void CartManager::remove() {
     cin >> index;
     cin.ignore();
 
-    if (index < 1 || index > cart->getProducts().size()) {
+    if (index < 1 || index > cart->products.size()) {
         cout << "잘못된 상품 번호입니다." << endl;
         return;
     }
@@ -134,7 +134,7 @@ void CartManager::clearCart() {
 
 Cart* CartManager::findCartByUserId(const string& userId) {
     for (auto& cart : items) {
-        if (cart.getUserId() == userId) {
+        if (cart.userId == userId) {
             return &cart;
         }
     }
