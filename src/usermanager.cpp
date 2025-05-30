@@ -1,16 +1,18 @@
-#include "usermanager.h"
-#include "csvhandler.h"
-#include "util.h"
+#include "../include/usermanager.h"
+#include "../include/csvhandler.h"
+#include "../include/util.h"
+#include "../include/manager.h"
 #include <iostream>
 #include <string>
 #include <regex>
+#include "user.h"
 
 using namespace std;
 
 UserManager::UserManager() {
-    users = csvHandler<User>::loadAll("users.csv");
+    this->items = csvHandler<User>::loadAll("users.csv");
     cout << "UserManager 생성자 생성 -> call csvHandler<User>::loadAll" << endl;
-    cout << "등록된 사용자 수 : " << users.size() << endl;
+    cout << "등록된 사용자 수 : " << items.size() << endl;
 }
 
 void UserManager::add() {
@@ -28,7 +30,7 @@ void UserManager::add() {
     }
 
     // 중복 ID 체크
-    for(const auto& user : users) {
+    for(const auto& user : items) {
         if(user.matches(1, id)) {
             cout << "이미 존재하는 ID입니다." << endl;
             return;
@@ -40,7 +42,7 @@ void UserManager::add() {
     cout << "주소: "; getline(cin >> ws, address);
     
     User newUser(id, password, name, address);
-    users.push_back(newUser);
+    items.push_back(newUser);
     
     saveAll();
 }
@@ -53,11 +55,11 @@ void UserManager::remove() {
         return;
     }
 
-    auto it = remove_if(users.begin(), users.end(),
+    auto it = remove_if(items.begin(), items.end(),
                        [&](const User& u) { return &u == target; });
     
-    if(it != users.end()) {
-        users.erase(it, users.end());
+    if(it != items.end()) {
+        items.erase(it, items.end());
         cout << "사용자를 삭제했습니다." << endl;
         saveAll();
     }
@@ -84,7 +86,7 @@ void UserManager::listAll() {
     cout << " [Admin : 사용자관리 : 사용자 전체 보기]\n";
     cout << "=====================================\n";
     
-    for (const auto& user : users)
+    for (const auto& user : items)
         user.showUserInfo();
 }
 
@@ -99,7 +101,7 @@ User* UserManager::find() {
     string keyword;
     getline(cin >> ws, keyword);
     
-    for (auto& user : users) {
+    for (auto& user : items) {
         if (user.matches(choice, keyword))
             return &user;
     }
@@ -113,7 +115,7 @@ User* UserManager::findByID() {
     cout << "찾을 사용자 ID를 입력해주세요: ";
     getline(cin >> ws, id);
     
-    for (auto& user : users) {
+    for (auto& user : items) {
         if (user.matches(1, id))
             return &user;
     }
@@ -123,7 +125,7 @@ User* UserManager::findByID() {
 }
 
 User* UserManager::authenticate(const string& id, const string& password) {
-    for (auto& user : users) {
+    for (auto& user : items) {
         if (user.matches(1, id) && user.authenticate(password))
             return &user;
     }
@@ -131,7 +133,7 @@ User* UserManager::authenticate(const string& id, const string& password) {
 }
 
 void UserManager::saveAll() {
-    if (csvHandler<User>::saveAll(users, "users.csv"))
+    if (csvHandler<User>::saveAll(items, "users.csv"))
         cout << "변경사항을 저장했습니다." << endl;
     else
         cerr << "저장에 실패했습니다." << endl;

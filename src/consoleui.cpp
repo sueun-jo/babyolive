@@ -1,5 +1,6 @@
-#include "consoleui.h"
-#include "util.h"
+#include "../include/consoleui.h"
+#include "../include/util.h"
+#include "../include/usermanager.h"
 #include <iostream>
 #include <string>
 #include <regex>
@@ -166,10 +167,10 @@ void consoleUI::showAdminUserManageUI(){
         cout << "=====================================\n";
         cout << "  0. 종료하기\n";
         cout << "  1. 전 화면으로 돌아가기\n";
-        cout << "  2. 상품 전체 보기\n";
-        cout << "  3. 신규 상품 등록하기\n";
-        cout << "  4. 기존 상품 수정하기\n";
-        cout << "  5. 상품 삭제 하기\n";
+        cout << "  2. 유저 전체 보기\n";
+        cout << "  3. 신규 유저 등록하기\n";
+        cout << "  4. 기존 유저 수정하기\n";
+        cout << "  5. 유저 삭제 하기\n";
         cout << "-------------------------------------\n";
         cout << "  선택: ";
 
@@ -177,12 +178,11 @@ void consoleUI::showAdminUserManageUI(){
         switch(choice){
             case 0: exit(0); break;
             case 1: return; break;
-            case 2: um.add(); break;
+            case 2: um.listAll(); break;
+            case 3: um.add(); break;
             case 4: um.update(); break;
             case 5: um.remove(); break;
             default: pauseForUser(); break;
         }
-
-
     }
 }

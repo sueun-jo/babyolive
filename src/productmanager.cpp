@@ -1,6 +1,7 @@
-#include "productmanager.h"
-#include "csvhandler.h"
-#include "util.h"
+#include "../include/productmanager.h"
+#include "../include/csvhandler.h"
+#include "../include/util.h"
+#include "../include/product.h"
 #include <iostream>
 #include <string>
 #include <vector>
@@ -10,7 +11,7 @@ using namespace std;
 
 /* ProductManager pm만들 때 메모리 상에 product 정보 읽어서 vector<Product> items에 올려둠*/
 ProductManager::ProductManager() {
-    items = csvHandler<Product>::loadAll("product.csv");
+    this->items = csvHandler<Product>::loadAll("product.csv");
     cout << "ProductManager 생성자 생성 -> call csvHandler<Product>::loadAll" << endl;
     cout << "불러온 상품 수 : " << items.size() << endl;
 }
