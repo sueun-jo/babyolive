@@ -12,41 +12,124 @@ CartManager::~CartManager() {
     saveAll();
 }
 
-void CartManager::addToCart(const string& userId, const string& productInfo) {
-    Cart* cart = findCartByUserId(userId);
+void CartManager::add() {
+    if (currentUserId.empty()) {
+        cout << "오류: 현재 사용자가 설정되지 않았습니다." << endl;
+        return;
+    }
+
+    string productInfo;
+    cout << "장바구니에 추가할 상품 정보를 입력하세요: ";
+    getline(cin >> ws, productInfo);
+    
+    addToCart(productInfo);
+}
+
+void CartManager::update() {
+    if (currentUserId.empty()) {
+        cout << "오류: 현재 사용자가 설정되지 않았습니다." << endl;
+        return;
+    }
+
+    Cart* cart = find();
     if (!cart) {
-        // 사용자의 장바구니가 없으면 새로 생성
-        items.push_back(Cart(userId));
+        cout << "장바구니를 찾을 수 없습니다." << endl;
+        return;
+    }
+
+    listAll();
+    
+    int index;
+    cout << "수정할 상품 번호를 선택하세요: ";
+    cin >> index;
+    cin.ignore();
+
+    if (index < 1 || index > cart->getProducts().size()) {
+        cout << "잘못된 상품 번호입니다." << endl;
+        return;
+    }
+
+    string newProductInfo;
+    cout << "새로운 상품 정보를 입력하세요: ";
+    getline(cin, newProductInfo);
+
+    cart->removeProduct(index - 1);
+    cart->addProduct(newProductInfo);
+    saveAll();
+}
+
+void CartManager::remove() {
+    if (currentUserId.empty()) {
+        cout << "오류: 현재 사용자가 설정되지 않았습니다." << endl;
+        return;
+    }
+
+    Cart* cart = find();
+    if (!cart) {
+        cout << "장바구니를 찾을 수 없습니다." << endl;
+        return;
+    }
+
+    listAll();
+    
+    int index;
+    cout << "삭제할 상품 번호를 선택하세요: ";
+    cin >> index;
+    cin.ignore();
+
+    if (index < 1 || index > cart->getProducts().size()) {
+        cout << "잘못된 상품 번호입니다." << endl;
+        return;
+    }
+
+    cart->removeProduct(index - 1);
+    saveAll();
+}
+
+Cart* CartManager::find() {
+    return findCartByUserId(currentUserId);
+}
+
+void CartManager::listAll() {
+    if (currentUserId.empty()) {
+        cout << "오류: 현재 사용자가 설정되지 않았습니다." << endl;
+        return;
+    }
+
+    Cart* cart = find();
+    if (cart) {
+        cart->showCart();
+    } else {
+        cout << "장바구니를 찾을 수 없습니다." << endl;
+    }
+}
+
+void CartManager::addToCart(const string& productInfo) {
+    if (currentUserId.empty()) {
+        cout << "오류: 현재 사용자가 설정되지 않았습니다." << endl;
+        return;
+    }
+
+    Cart* cart = findCartByUserId(currentUserId);
+    if (!cart) {
+        items.push_back(Cart(currentUserId));
         cart = &items.back();
     }
     cart->addProduct(productInfo);
     saveAll();
 }
 
-void CartManager::removeFromCart(const string& userId, int index) {
-    Cart* cart = findCartByUserId(userId);
-    if (cart) {
-        cart->removeProduct(index);
-        saveAll();
+void CartManager::clearCart() {
+    if (currentUserId.empty()) {
+        cout << "오류: 현재 사용자가 설정되지 않았습니다." << endl;
+        return;
     }
-}
 
-void CartManager::clearCart(const string& userId) {
-    Cart* cart = findCartByUserId(userId);
+    Cart* cart = find();
     if (cart) {
         cart->clearCart();
         saveAll();
     }
-}
-
-void CartManager::showUserCart(const string& userId) const {
-    for (const auto& cart : items) {
-        if (cart.getUserId() == userId) {
-            cart.showCart();
-            return;
-        }
-    }
-    cout << "장바구니를 찾을 수 없습니다." << endl;
 }
 
 Cart* CartManager::findCartByUserId(const string& userId) {
