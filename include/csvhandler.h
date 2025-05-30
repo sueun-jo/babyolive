@@ -10,6 +10,7 @@
 #include "util.h"
 #include "user.h"
 #include "product.h"
+#include "cart.h"
 
 using namespace std;
 namespace fs = std::filesystem; 
