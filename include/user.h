@@ -31,9 +31,6 @@ public:
     void setAddress(const std::string& newAddress);
     void setPassword(const std::string& newPassword);
 
-    // 장바구니 관련 메소드
-    void addOrder(const std::string& orderInfo);  // 주문 추가
-    const std::vector<std::string>& getOrders() const;  // 주문 목록 반환
 };
 
 #endif // USER_H 

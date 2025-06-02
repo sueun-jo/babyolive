@@ -16,8 +16,8 @@ UserManager::UserManager() {
     cout << "Current working directory: " << fs::current_path().string() << endl;
     cout << "Attempting to load users from users.csv..." << endl;
     
-    this->items = csvHandler<User>::loadAll("users.csv");
-    cout << "UserManager 생성자 생성 -> call csvHandler<User>::loadAll" << endl;
+    this->items = CsvHandler<User>::loadAll("users.csv");
+    cout << "UserManager 생성자 생성 -> call CsvHandler<User>::loadAll" << endl;
     cout << "등록된 사용자 수 : " << items.size() << endl;
     
     // Debug: 사용자 정보 출력
@@ -33,11 +33,11 @@ UserManager::~UserManager() {
 }
 
 void UserManager::loadFromFile() {
-    items = csvHandler<User>::loadAll("users.csv");
+    items = CsvHandler<User>::loadAll("users.csv");
 }
 
 void UserManager::saveToFile() const {
-    if (!csvHandler<User>::saveAll(items, "users.csv")) {
+    if (!CsvHandler<User>::saveAll(items, "users.csv")) {
         cerr << "사용자 정보 저장에 실패했습니다." << endl;
     }
 }

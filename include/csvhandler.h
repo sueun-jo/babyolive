@@ -1,7 +1,8 @@
-#ifndef CSVHANDLER_H
-#define CSVHANDLER_H
+#ifndef CsvHandler_H
+#define CsvHandler_H
 
 #include <vector>
+
 #include <string>
 #include <fstream>
 #include <sstream>
@@ -16,7 +17,7 @@ using namespace std;
 namespace fs = std::filesystem; 
 
 template<typename T>
-class csvHandler {
+class CsvHandler {
 private:
     static string getDataPath(const string& filename) {
         #ifdef DATA_DIR
@@ -58,7 +59,7 @@ public:
 
 // Vector<User> 특수화
 template<>
-inline vector<User> csvHandler<User>::loadAll(const string& filename) {
+inline vector<User> CsvHandler<User>::loadAll(const string& filename) {
     vector<User> users;
     string filepath = getDataPath(filename);
     
@@ -96,7 +97,7 @@ inline vector<User> csvHandler<User>::loadAll(const string& filename) {
 
 // vector<Product> 특수화
 template<>
-inline vector<Product> csvHandler<Product>::loadAll(const string& filename) {
+inline vector<Product> CsvHandler<Product>::loadAll(const string& filename) {
     vector<Product> products;
     string filepath = getDataPath(filename);
     
@@ -136,7 +137,7 @@ inline vector<Product> csvHandler<Product>::loadAll(const string& filename) {
 
 // Vector<Cart> 특수화
 template<>
-inline vector<Cart> csvHandler<Cart>::loadAll(const string& filename) {
+inline vector<Cart> CsvHandler<Cart>::loadAll(const string& filename) {
     vector<Cart> carts;
     string filepath = getDataPath(filename);
     
@@ -174,4 +175,4 @@ inline vector<Cart> csvHandler<Cart>::loadAll(const string& filename) {
     return carts;
 }
 
-#endif // CSVHANDLER_H
+#endif // CsvHandler_H

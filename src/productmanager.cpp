@@ -23,11 +23,11 @@ ProductManager::~ProductManager() {
 }
 
 void ProductManager::loadFromFile() {
-    items = csvHandler<Product>::loadAll("product.csv");
+    items = CsvHandler<Product>::loadAll("product.csv");
 }
 
 void ProductManager::saveToFile() const {
-    if (!csvHandler<Product>::saveAll(items, "product.csv")) {
+    if (!CsvHandler<Product>::saveAll(items, "product.csv")) {
         cerr << "상품 정보 저장에 실패했습니다." << endl;
     }
 }
