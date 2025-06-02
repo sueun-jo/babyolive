@@ -12,16 +12,14 @@ using std::string;
 using std::regex;
 using std::regex_match;
 
-consoleUI::consoleUI() {
-    // 파일에서 데이터 로드
-    um.loadFromFile();
-    pm.loadFromFile();
-    cm.loadFromFile();
-} //기본 생성자
+ConsoleUI::ConsoleUI() {
+    // manager 객체들은 생성자에서 자동으로 데이터를 불러온다
+    // private memeber로 이미 선언했음
+} 
 
 
 /*ui첫 시작점 진입*/
-void consoleUI::run(){
+void ConsoleUI::run(){
 
     while(true){
         clearScreen();
@@ -49,7 +47,7 @@ void consoleUI::run(){
 
 
 /*로그인 화면*/
-void consoleUI::showLoginUI(){
+void ConsoleUI::showLoginUI(){
     while (true){
         clearScreen();
         string inputid, inputpw;
@@ -67,17 +65,25 @@ void consoleUI::showLoginUI(){
         cout << "  PW: "; cin >> inputpw;
         cout << "-------------------------------------\n";
 
-        // authenticate 메서드로 한 번에 ID와 비밀번호 검증
+        // authenticate 메소드로 한 번에 ID와 비밀번호 검증
         User* user = um.authenticate(inputid, inputpw);
         if (user) {
             cout << "\n=== 로그인한 사용자 정보 ===\n";
             user->showUserInfo();
+            cout << "장바구니 내역: \n";
+            Cart* cart = cm.findCartByUserId(user->getId());
+            if (cart) {
+                for (const auto& p : cart->getProducts()) {
+                    cout << p << "\n";
+                }
+            }
             cout << "계속하려면 enter를 입력하세요.";
             cin.get();
             
             // 장바구니 매니저에 현재 사용자 ID 설정
             cm.setCurrentUser(inputid);
             
+
             if (user->isAdminUser()) {
                 showAdminUI();
             } else {
@@ -92,7 +98,7 @@ void consoleUI::showLoginUI(){
 }
 
 /*회원가입 화면*/
-void consoleUI::showSignupUI(){
+void ConsoleUI::showSignupUI(){
     while(true){
     clearScreen();
         
@@ -117,7 +123,7 @@ void consoleUI::showSignupUI(){
 }
 
 /*멤버 ui -> 쇼핑몰 이용할 수 있음*/
-void consoleUI::showMemberUI(){
+void ConsoleUI::showMemberUI(){
     while (true) {
         clearScreen();
         
@@ -146,12 +152,12 @@ void consoleUI::showMemberUI(){
     }
 }
 
-void consoleUI::showAllProductsWithCart() {
+void ConsoleUI::showAllProductsWithCart() {
     pm.listAll();
     askToAddToCart(nullptr);  // nullptr means we'll ask for product ID
 }
 
-void consoleUI::findProductWithCart() {
+void ConsoleUI::findProductWithCart() {
     Product* product = pm.find();
     if (product) {
         product->showProductInfo();
@@ -159,7 +165,7 @@ void consoleUI::findProductWithCart() {
     }
 }
 
-void consoleUI::askToAddToCart(Product* product) {
+void ConsoleUI::askToAddToCart(Product* product) {
     cout << "\n장바구니에 추가하시겠습니까? (Y/N): ";
     string response;
     getline(cin, response);
@@ -191,7 +197,7 @@ void consoleUI::askToAddToCart(Product* product) {
     }
 }
 
-void consoleUI::showCurrentCart() {
+void ConsoleUI::showCurrentCart() {
     cm.listAll();
     cout << "\n1. 상품 삭제\n";
     cout << "2. 장바구니 비우기\n";
@@ -216,7 +222,7 @@ void consoleUI::showCurrentCart() {
 }
 
 /*관리자 ui -> 상품 등록, 유저 등록 관리*/
-void consoleUI::showAdminUI(){
+void ConsoleUI::showAdminUI(){
     while(true){
 
         clearScreen();
@@ -242,7 +248,7 @@ void consoleUI::showAdminUI(){
     }
 } 
 
-void consoleUI::showAdminProductManageUI(){
+void ConsoleUI::showAdminProductManageUI(){
 
     while (true){
         clearScreen();
@@ -291,7 +297,7 @@ void consoleUI::showAdminProductManageUI(){
 }
 
 /*관리자 : 유저 관리*/
-void consoleUI::showAdminUserManageUI(){
+void ConsoleUI::showAdminUserManageUI(){
     while (true){ 
         clearScreen();
         

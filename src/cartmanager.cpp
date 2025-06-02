@@ -2,14 +2,32 @@
 #include "../include/csvhandler.h"
 #include <iostream>
 
-using namespace std;
+using std::cout;
+using std::cin;
+using std::endl;
+using std::string;
+using std::cerr;
 
-CartManager::CartManager() {
-    loadAll();
+CartManager::CartManager() : currentUserId("") {
+    loadFromFile();
 }
 
 CartManager::~CartManager() {
-    saveAll();
+    saveToFile();
+}
+
+void CartManager::loadFromFile() {
+    items = csvHandler<Cart>::loadAll("carts.csv");
+}
+
+void CartManager::saveToFile() const {
+    if (!csvHandler<Cart>::saveAll(items, "carts.csv")) {
+        cerr << "장바구니 저장에 실패했습니다." << endl;
+    }
+}
+
+void CartManager::setCurrentUser(const string& userId) {
+    currentUserId = userId;
 }
 
 void CartManager::add() {
@@ -55,7 +73,7 @@ void CartManager::update() {
 
     cart->removeProduct(index - 1);
     cart->addProduct(newProductInfo);
-    saveAll();
+    saveToFile();
 }
 
 void CartManager::remove() {
@@ -83,11 +101,38 @@ void CartManager::remove() {
     }
 
     cart->removeProduct(index - 1);
-    saveAll();
+    saveToFile();
+    cout << "상품이 삭제되었습니다." << endl;
 }
 
-Cart* CartManager::find() {
-    return findCartByUserId(currentUserId);
+void CartManager::addToCart(const string& productInfo) {
+    if (currentUserId.empty()) {
+        cout << "오류: 현재 사용자가 설정되지 않았습니다." << endl;
+        return;
+    }
+
+    Cart* cart = findCartByUserId(currentUserId);
+    if (!cart) {
+        items.push_back(Cart(currentUserId));
+        cart = &items.back();
+    }
+    cart->addProduct(productInfo);
+    saveToFile();
+    cout << "상품이 장바구니에 추가되었습니다." << endl;
+}
+
+void CartManager::clearCart() {
+    if (currentUserId.empty()) {
+        cout << "오류: 현재 사용자가 설정되지 않았습니다." << endl;
+        return;
+    }
+
+    Cart* cart = find();
+    if (cart) {
+        cart->clear();
+        saveToFile();
+        cout << "장바구니가 비워졌습니다." << endl;
+    }
 }
 
 void CartManager::listAll() {
@@ -104,32 +149,8 @@ void CartManager::listAll() {
     }
 }
 
-void CartManager::addToCart(const string& productInfo) {
-    if (currentUserId.empty()) {
-        cout << "오류: 현재 사용자가 설정되지 않았습니다." << endl;
-        return;
-    }
-
-    Cart* cart = findCartByUserId(currentUserId);
-    if (!cart) {
-        items.push_back(Cart(currentUserId));
-        cart = &items.back();
-    }
-    cart->addProduct(productInfo);
-    saveAll();
-}
-
-void CartManager::clearCart() {
-    if (currentUserId.empty()) {
-        cout << "오류: 현재 사용자가 설정되지 않았습니다." << endl;
-        return;
-    }
-
-    Cart* cart = find();
-    if (cart) {
-        cart->clearCart();
-        saveAll();
-    }
+Cart* CartManager::find() {
+    return findCartByUserId(currentUserId);
 }
 
 Cart* CartManager::findCartByUserId(const string& userId) {
@@ -139,13 +160,4 @@ Cart* CartManager::findCartByUserId(const string& userId) {
         }
     }
     return nullptr;
-}
-
-bool CartManager::saveAll() const {
-    return csvHandler<Cart>::saveAll(items, "carts.csv");
-}
-
-bool CartManager::loadAll() {
-    items = csvHandler<Cart>::loadAll("carts.csv");
-    return true;
 } 

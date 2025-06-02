@@ -5,6 +5,7 @@
 #include <iostream>
 #include <string>
 #include <regex>
+#include <algorithm>
 #include "user.h"
 #include <filesystem>
 
@@ -25,6 +26,20 @@ UserManager::UserManager() {
         user.showUserInfo();
     }
     cout << "=====================\n";
+}
+
+UserManager::~UserManager() {
+    saveToFile();
+}
+
+void UserManager::loadFromFile() {
+    items = csvHandler<User>::loadAll("users.csv");
+}
+
+void UserManager::saveToFile() const {
+    if (!csvHandler<User>::saveAll(items, "users.csv")) {
+        cerr << "사용자 정보 저장에 실패했습니다." << endl;
+    }
 }
 
 void UserManager::add() {
@@ -56,7 +71,7 @@ void UserManager::add() {
     User newUser(id, password, name, address);
     items.push_back(newUser);
     
-    saveAll();
+    saveToFile();
 }
 
 void UserManager::remove() {
@@ -73,7 +88,7 @@ void UserManager::remove() {
     if(it != items.end()) {
         items.erase(it, items.end());
         cout << "사용자를 삭제했습니다." << endl;
-        saveAll();
+        saveToFile();
     }
 }
 
@@ -88,7 +103,7 @@ void UserManager::update() {
     target->showUserInfo();
     target->updateField();
     target->showUserInfo();
-    saveAll();
+    saveToFile();
 }
 
 void UserManager::listAll() {
@@ -121,21 +136,14 @@ User* UserManager::find() {
     return nullptr;
 }
 
-
-User* UserManager::authenticate(const string& inputid, const string& inputpassword) {
+User* UserManager::authenticate(const std::string& inputid, const std::string& inputpassword) {
     for (auto& user : items) {
-        if (user.authenticate(inputid, inputpassword))
-            {   cout << "로그인 성공" << endl;
-                cout << "계속하려면 enter 키를 입력하세요.";
-                cin.ignore(); cin.get();
-                return &user;}
+        if (user.authenticate(inputid, inputpassword)) {
+            cout << "로그인 성공" << endl;
+            cout << "계속하려면 enter 키를 입력하세요.";
+            cin.ignore(); cin.get();
+            return &user;
+        }
     }
     return nullptr;
-}
-
-void UserManager::saveAll() {
-    if (csvHandler<User>::saveAll(items, "users.csv"))
-        cout << "변경사항을 저장했습니다." << endl;
-    else
-        cerr << "저장에 실패했습니다." << endl;
 }

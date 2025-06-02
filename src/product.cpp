@@ -23,7 +23,7 @@ Product::Product(string id, string category, string brand, string name,
 
 Product::~Product(){
 
-} //Product::destructor
+} 
 
 /* product 객체의 정보를 보여준다 */
 void Product::showProductInfo() const{

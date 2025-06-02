@@ -4,19 +4,25 @@
 #include "manager.h"
 #include "product.h"
 
-using namespace std;
-class ProductManager : public Manager<Product> /*추상클래스 Manager 상속받음*/
+class ProductManager : public Manager<Product>
 {
 public:
     ProductManager();
+    ~ProductManager();
 
-    void add () override;
+    // Manager 추상 클래스의 순수 가상 함수 구현
+    void add() override;
     void remove() override;
     void update() override;
     Product* find() override;
-    Product* findByID();
     void listAll() override;
-    void saveAll();
+
+    // 파일 입출력 구현
+    void loadFromFile() override;
+    void saveToFile() const override;
+
+    // 추가 기능
+    Product* findByID();
 };
 
 #endif // PRODUCTMANAGER_H

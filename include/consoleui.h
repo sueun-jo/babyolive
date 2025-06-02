@@ -4,10 +4,10 @@
 #include "usermanager.h"
 #include "cartmanager.h"
 
-class consoleUI
+class ConsoleUI
 {
 public:
-    consoleUI();
+    ConsoleUI();
 
     void run(); //제일 첫 화면
 

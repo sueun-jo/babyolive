@@ -4,51 +4,59 @@
 
 using namespace std;
 
-Cart::Cart() {}
 
-Cart::Cart(const string& userId) : userId(userId) {}
+Cart::Cart(const std::string& id) : userId(id) {}
 
-Cart::~Cart() {}
 
-void Cart::addProduct(const string& productInfo) {
-    products.push_back(productInfo);
-    cout << "장바구니에 상품이 추가되었습니다." << endl;
+void Cart::addProduct(const std::string& product) {
+    cartProducts.push_back(product);
 }
 
-void Cart::removeProduct(int index) {
-    if (index >= 0 && index < products.size()) {
-        products.erase(products.begin() + index);
-        cout << "상품이 장바구니에서 제거되었습니다." << endl;
+void Cart::removeProduct(size_t index) {
+    if (index < cartProducts.size()) {
+        cartProducts.erase(cartProducts.begin() + index);
     }
 }
 
-void Cart::clearCart() {
-    products.clear();
-    cout << "장바구니가 비워졌습니다." << endl;
+void Cart::clear() {
+    cartProducts.clear();
 }
 
 void Cart::showCart() const {
-    cout << "\n=== " << userId << "님의 장바구니 ===\n";
-    if (products.empty()) {
-        cout << "장바구니가 비어있습니다." << endl;
+    std::cout << "\n장바구니 내용:\n";
+    std::cout << "-------------------------------------\n";
+    if (cartProducts.empty()) {
+        std::cout << "장바구니가 비어있습니다.\n";
         return;
     }
-
-    for (size_t i = 0; i < products.size(); ++i) {
-        cout << (i + 1) << ". " << products[i] << endl;
+    
+    for (size_t i = 0; i < cartProducts.size(); ++i) {
+        std::cout << i + 1 << ". " << cartProducts[i] << "\n";
     }
-    cout << "========================\n";
+    std::cout << "-------------------------------------\n";
 }
 
-string Cart::toCSVRow() const {
-    ostringstream oss;
+bool Cart::matchUserId(const std::string& id) const {
+    return userId == id;
+}
+
+size_t Cart::getProductCount() const {
+    return cartProducts.size();
+}
+
+const std::vector<std::string>& Cart::getProducts() const {
+    return cartProducts;
+}
+
+std::string Cart::toCSVRow() const {
+    std::ostringstream oss;
     oss << userId;
     
-    if (!products.empty()) {
+    if (!cartProducts.empty()) {
         oss << ",";
-        for (size_t i = 0; i < products.size(); ++i) {
+        for (size_t i = 0; i < cartProducts.size(); ++i) {
             if (i > 0) oss << "|";
-            oss << products[i];
+            oss << cartProducts[i];
         }
     }
     

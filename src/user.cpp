@@ -3,7 +3,11 @@
 #include <sstream>
 #include <string>
 
-using namespace std::cout;
+using std::cout;
+using std::cin;
+using std::ws;
+using std::string;
+using std::ostringstream;
 
 User::User() : isAdmin(false) {} //기본생성자의 관리자 권한은 0
 
@@ -20,7 +24,6 @@ void User::showUserInfo() const {
     cout << "Name: " << name << "\n";
     cout << "Address: " << address << "\n";
     cout << "Role: " << (isAdmin ? "Admin" : "Member") << "\n";
-    cout << "Cart Items: " << cart.size() << " items\n\n";
     cout << "-------------------------------------\n";
 }
 
@@ -28,15 +31,6 @@ void User::showUserInfo() const {
 string User::toCSVRow() const {
     ostringstream oss;
     oss << id << "," << password << "," << name << "," << address << "," << (isAdmin ? "1" : "0");
-    
-    // 장바구니 내역이 있을 때만 쉼표와 장바구니 내역을 추가
-    if (!cart.empty()) {
-        oss << ",";
-        for(size_t i = 0; i < cart.size(); i++) {
-            if(i > 0) oss << "|";
-            oss << cart[i];
-        }
-    }
     
     return oss.str();
 }
@@ -47,6 +41,10 @@ bool User::matches(int choice, string keyword) const {
     case 2: return name == keyword;
     default: return false;
     }
+}
+
+const string& User::getId() const {
+    return id;
 }
 
 void User::setName(const string& newName) {
@@ -104,21 +102,4 @@ bool User::authenticate(const string& inputid, const string& inputPassword) cons
 
 bool User::isAdminUser() const { return isAdmin; }
 
-void User::addToCart(const string& productInfo) {
-    cart.push_back(productInfo);
-}
-
-void User::showCart() const {
-    cout << "\n장바구니 내역:\n";
-    cout << "-------------------------------------\n";
-    if(cart.empty()) {
-        cout << "장바구니가 비어있습니다.\n";
-        return;
-    }
-    
-    for(size_t i = 0; i < cart.size(); ++i) {
-        cout << (i+1) << ". " << cart[i] << "\n";
-    }
-    cout << "-------------------------------------\n";
-}
 

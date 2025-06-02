@@ -8,7 +8,7 @@ using namespace std;
 
 int main(void){
 
-    consoleUI ui;
+    ConsoleUI ui;
     ui.run();
 
     return 0;
